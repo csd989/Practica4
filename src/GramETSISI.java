@@ -142,20 +142,26 @@ public class GramETSISI {
     }
 
     public int contarGrupos(){
-        int numGrupos=0;
-        for (int i = 0; i < numVertices; i++) {
-            boolean tieneamigos= false;
-            int j=0;
-            while (!tieneamigos&& j<numVertices){
-                if (matrizAdy[i][j]){
-                    tieneamigos=true;
-                }
-                j++;
-            }
-            if (tieneamigos){}
-            numGrupos++;
-        }
-        return numGrupos;
+	int numGrupos = 0;
+	boolean visitados[] = new boolean[numVertices];
+	for (int i = 0; i < numVertices; i++) {
+		visitados[i] = false;
+	}
+	for (int i = 0; i < numVertices; i++) {
+		if (!visitados[i]) {
+			numGrupos++;
+			recorrerProfundidad(i, visitados);
+		}
+	}
+	return numGrupos;
+    }
+	
+    private void recorrerProfundidad(int v, boolean[] visitados) {
+	visitados[v] = true;
+	    for (int i = 0; i < numVertices; i++) {
+		if ((v != i) && (!visitados[i]) && (existeArista(v, i)))
+			recorrerProfundidad(i, visitados);
+	    }
     }
 
     public void imprimirGrafo() {
